@@ -66,7 +66,6 @@ public class Cliente {
         if (!dni.matches(ER_DNI)) {
             throw new IllegalArgumentException("El DNI no tiene un formato válido.");
         }
-
         return new Cliente("Patricio", dni, "912912912");
     }
 
