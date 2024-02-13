@@ -32,7 +32,6 @@ public class Cliente {
         if(!nombre.matches(ER_NOMBRE)){
             throw new IllegalArgumentException("El nombre no tiene un formato válido.");
         }
-
         this.nombre = nombre;
     }
 

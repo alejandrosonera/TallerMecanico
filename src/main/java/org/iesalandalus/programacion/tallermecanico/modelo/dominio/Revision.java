@@ -30,6 +30,7 @@ public class Revision {
     public Revision(Revision revision) {
         Objects.requireNonNull(revision, "La revisión no puede ser nula.");
         cliente = new Cliente(revision.cliente);
+        cliente = new Cliente(revision.cliente.getNombre(), revision.cliente.getDni(), revision.cliente.getTelefono());
         vehiculo = revision.vehiculo;
         horas = revision.horas;
         fechaFin = revision.fechaFin;
