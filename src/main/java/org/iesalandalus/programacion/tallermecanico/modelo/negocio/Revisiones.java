@@ -91,7 +91,6 @@ public class Revisiones {
             throw new OperationNotSupportedException("No existe ninguna revisión igual.");
         }
         coleccionRevisiones.remove(revision);
-
     }
 
 }

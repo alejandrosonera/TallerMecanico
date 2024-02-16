@@ -18,9 +18,6 @@ public class Modelo {
     private Vehiculos vehiculos;
     private Revisiones revisiones;
 
-    public Modelo() {
-
-    }
     public void comenzar() {
         clientes = new Clientes();
         vehiculos = new Vehiculos();
@@ -88,11 +85,11 @@ public class Modelo {
         return vehiculos.get();
     }
     public List<Revision> getRevisiones() {
-        List<Revision> listaExistente = new ArrayList<>();
+        List<Revision> revisionesExistentes = new ArrayList<>();
         for (Revision revision : revisiones.get()) {
-            listaExistente.add(revision);
+            revisionesExistentes.add(revision);
         }
-        return listaExistente;
+        return revisionesExistentes;
     }
     public List<Revision> getRevisiones(Cliente cliente) {
         List<Revision> clientesExistentes = new ArrayList<>();
