@@ -19,7 +19,7 @@ public enum Opcion {
     LISTAR_REVISIONES_CLIENTE(13, "Listar Revisiones Cliente"),
     LISTAR_REVISIONES_VEHICULO(14, "Listar Revisiones Vehiculo"),
     ANADIR_HORAS_REVISION(15, "Añadir Horas Revision"),
-    ANADUIR_PRECIO_MATERIAL_REVISION(15, "Añadir Precio Material Revision"),
+    ANADIR_PRECIO_MATERIAL_REVISION(15, "Añadir Precio Material Revision"),
     CERRAR_REVISION(16, "Cerrar Revision"),
     SALIR(17, "Salir");
 

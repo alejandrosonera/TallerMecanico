@@ -4,6 +4,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.Modelo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class Controlador {
     }
     public void comenzar() {
         modelo.comenzar();
-        vista.comenzar;
+        vista.comenzar();
     }
     public void terminar() {
         modelo.terminar();
@@ -50,7 +51,7 @@ public class Controlador {
     public boolean modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
         return modelo.modificar(cliente, nombre, telefono);
     }
-    public void anadirHoras(Revision revision, int horas) throws OperationNotSupportedException {
+    public void anadirHoras (Revision revision, int horas) throws OperationNotSupportedException {
         modelo.anadirHoras(revision, horas);
     }
     public void anadirPrecioMaterial(Revision revision, float precioMaterial) throws OperationNotSupportedException {
