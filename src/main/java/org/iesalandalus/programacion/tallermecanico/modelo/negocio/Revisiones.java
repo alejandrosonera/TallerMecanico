@@ -55,9 +55,8 @@ public class Revisiones {
             if (!revision.estaCerrada()) {
                 if (revision.getCliente().equals(cliente)) {
                     throw new OperationNotSupportedException("El cliente tiene otra revisión en curso.");
-                }
-                if (revision.getVehiculo().equals(vehiculo)) {
-                    throw new OperationNotSupportedException("El vehículo está actualmente en revisión.");
+                } else if (revision.getVehiculo().equals(vehiculo)) {
+                    throw new OperationNotSupportedException( "El vehículo esta actualmente en revisión.");
                 }
             } else {
                 if (revision.getCliente().equals(cliente) && !fechaRevision.isAfter(revision.getFechaFin())) {
@@ -71,23 +70,27 @@ public class Revisiones {
     }
     private Revision getRevision(Revision revision) throws OperationNotSupportedException {
         Objects.requireNonNull(revision, "No puedo operar sobre una revisión nula.");
-        if (buscar(revision) == null) {
+        Revision revisionEncontrada = buscar(revision);
+        if (revisionEncontrada == null) {
             throw new OperationNotSupportedException("No existe ninguna revisión igual.");
         }
-        return revision;
+        return revisionEncontrada;
     }
     public void anadirHoras(Revision revision, int horas) throws OperationNotSupportedException {
-        getRevision(revision).anadirHoras(horas);
+        Revision revisionEncontrada = getRevision(revision);
+        revisionEncontrada.anadirHoras(horas);
     }
     public void anadirPrecioMaterial(Revision revision, float precioMaterial) throws OperationNotSupportedException {
-        getRevision(revision).anadirPrecioMaterial(precioMaterial);
+        Revision revisionesEncontradas = getRevision(revision);
+        revisionesEncontradas.anadirPrecioMaterial(precioMaterial);
     }
     public void cerrar(Revision revision, LocalDate fechaFin) throws OperationNotSupportedException {
-        getRevision(revision).cerrar(fechaFin);
+        Revision revisionEncontrada = getRevision(revision);
+        revisionEncontrada.cerrar(fechaFin);
     }
     public void borrar(Revision revision) throws OperationNotSupportedException {
         Objects.requireNonNull(revision, "No se puede borrar una revisión nula.");
-        if (!coleccionRevisiones.contains(revision)) {
+        if (buscar(revision) == null) {
             throw new OperationNotSupportedException("No existe ninguna revisión igual.");
         }
         coleccionRevisiones.remove(revision);

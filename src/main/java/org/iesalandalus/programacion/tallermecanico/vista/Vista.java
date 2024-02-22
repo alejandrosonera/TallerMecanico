@@ -50,6 +50,15 @@ public class Vista {
         }
     }
 
+    private void anadirHoras() {
+        Consola.mostrarCabecera("AÑADIR HORAS");
+        try {
+            controlador.anadirHoras(Consola.leerRevision(), Consola.leerHoras());
+        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void anadirPrecioMaterialRevision() {
         Consola.mostrarCabecera("AÑADIR PRECIO MATERIAL REVISION");
         try {

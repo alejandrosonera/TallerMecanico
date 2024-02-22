@@ -12,6 +12,7 @@ import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Modelo {
     private Clientes clientes;
@@ -33,19 +34,21 @@ public class Modelo {
         vehiculos.insertar(vehiculo);
     }
     public void insertar(Revision revision) throws OperationNotSupportedException {
-        Cliente clienteEncontrado = clientes.buscar(revision.getCliente());
-        Vehiculo vehiculoEncontrado = vehiculos.buscar(revision.getVehiculo());
-        revision = new Revision(clienteEncontrado, vehiculoEncontrado, revision.getFechaInicio());
-        revisiones.insertar(revision);
+       Cliente cliente = clientes.buscar(revision.getCliente());
+       Vehiculo vehiculo = vehiculos.buscar(revision.getVehiculo());
+       revisiones.insertar(new Revision(cliente, vehiculo, revision.getFechaInicio()));
     }
     public Cliente buscar(Cliente cliente) {
-        return clientes.buscar(cliente);
+        cliente = Objects.requireNonNull(clientes.buscar(cliente), "No existe ningun cliente igual.");
+        return new Cliente(cliente);
     }
     public Vehiculo buscar(Vehiculo vehiculo) {
-        return vehiculos.buscar(vehiculo);
+        vehiculo = Objects.requireNonNull(vehiculos.buscar(vehiculo), "No existe un vehiculo igual.");
+        return vehiculo;
     }
     public Revision buscar(Revision revision) {
-        return revisiones.buscar(revision);
+        revision = Objects.requireNonNull(revisiones.buscar(revision), "No existe una revision igual.");
+        return new Revision(revision);
     }
     public boolean modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
         return clientes.modificar(cliente, nombre, telefono);
