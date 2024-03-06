@@ -2,15 +2,13 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-public class Revision extends Trabajo {
+public class Mecanico extends Trabajo {
     private static final float PRECIO_MATERIAL = 1.5f;
-    private float precioMaterial;
+    protected float precioMaterial;
 
-    public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
+    public Mecanico(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
         setCliente(cliente);
         setVehiculo(vehiculo);
         setFechaInicio(fechaInicio);
@@ -19,15 +17,15 @@ public class Revision extends Trabajo {
         precioMaterial = 0;
     }
 
-    public Revision(Revision revision) {
-        Objects.requireNonNull(revision, "La revisión no puede ser nula.");
-        cliente = new Cliente(revision.cliente);
-        cliente = new Cliente(revision.cliente.getNombre(), revision.cliente.getDni(), revision.cliente.getTelefono());
-        vehiculo = revision.vehiculo;
-        horas = revision.horas;
-        fechaFin = revision.fechaFin;
-        fechaInicio = revision.fechaInicio;
-        precioMaterial = revision.precioMaterial;
+    public Mecanico(Mecanico mecanico) {
+        Objects.requireNonNull(mecanico, "La revisión no puede ser nula.");
+        cliente = new Cliente(mecanico.cliente);
+        cliente = new Cliente(mecanico.cliente.getNombre(), mecanico.cliente.getDni(), mecanico.cliente.getTelefono());
+        vehiculo = mecanico.vehiculo;
+        horas = mecanico.horas;
+        fechaFin = mecanico.fechaFin;
+        fechaInicio = mecanico.fechaInicio;
+        precioMaterial = mecanico.precioMaterial;
     }
 
     public float getPrecioMaterial() {
@@ -44,7 +42,7 @@ public class Revision extends Trabajo {
         this.precioMaterial += precioMaterial;
     }
     public float getPrecioEspecifico() {
-        return horas * 35;
+        return (float) (horas * 30 + precioMaterial * 1.5);
     }
 
     @Override
