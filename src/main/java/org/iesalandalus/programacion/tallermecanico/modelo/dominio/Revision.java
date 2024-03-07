@@ -8,18 +8,18 @@ import java.util.Objects;
 
 public class Revision extends Trabajo {
     private static final float PRECIO_MATERIAL = 1.5f;
-    private float precioMaterial;
+    private static final float FACTOR_HORA = 35;
+    private static float precioMaterial;
 
     public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
-        setCliente(cliente);
-        setVehiculo(vehiculo);
-        setFechaInicio(fechaInicio);
+        super(cliente, vehiculo, fechaInicio);
         fechaFin = null;
         horas = 0;
         precioMaterial = 0;
     }
 
     public Revision(Revision revision) {
+        super(revision);
         Objects.requireNonNull(revision, "La revisión no puede ser nula.");
         cliente = new Cliente(revision.cliente);
         cliente = new Cliente(revision.cliente.getNombre(), revision.cliente.getDni(), revision.cliente.getTelefono());
@@ -27,10 +27,10 @@ public class Revision extends Trabajo {
         horas = revision.horas;
         fechaFin = revision.fechaFin;
         fechaInicio = revision.fechaInicio;
-        precioMaterial = revision.precioMaterial;
+        precioMaterial = precioMaterial;
     }
 
-    public float getPrecioMaterial() {
+    public static float getPrecioMaterial() {
         return precioMaterial;
     }
 

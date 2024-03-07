@@ -6,18 +6,18 @@ import java.util.Objects;
 
 public class Mecanico extends Trabajo {
     private static final float PRECIO_MATERIAL = 1.5f;
+    private static final float FACTOR_HORA = 30;
     protected float precioMaterial;
 
     public Mecanico(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
-        setCliente(cliente);
-        setVehiculo(vehiculo);
-        setFechaInicio(fechaInicio);
+        super(cliente, vehiculo, fechaInicio);
         fechaFin = null;
         horas = 0;
         precioMaterial = 0;
     }
 
     public Mecanico(Mecanico mecanico) {
+        super(mecanico);
         Objects.requireNonNull(mecanico, "La revisión no puede ser nula.");
         cliente = new Cliente(mecanico.cliente);
         cliente = new Cliente(mecanico.cliente.getNombre(), mecanico.cliente.getDni(), mecanico.cliente.getTelefono());

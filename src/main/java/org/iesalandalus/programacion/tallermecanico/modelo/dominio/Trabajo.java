@@ -6,15 +6,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-public class Trabajo {
+public abstract class Trabajo {
     static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    protected static final float PRECIO_HORA = 30;
-    protected static final float PRECIO_DIA = 10;
+    private static final float FACTOR_DIA = 10;
     protected LocalDate fechaInicio;
     protected LocalDate fechaFin;
     protected int horas;
     protected Cliente cliente;
     protected Vehiculo vehiculo;
+    protected Revision revision;
+    protected Mecanico mecanico;
 
     protected Trabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
         setCliente(cliente);
@@ -26,7 +27,7 @@ public class Trabajo {
         setVehiculo(trabajo.vehiculo);
         setFechaInicio(trabajo.fechaInicio);
     }
-    public Trabajo copiar(Trabajo trabajo) {
+    public static final Trabajo copiar(Trabajo trabajo) {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo");
         if (trabajo instanceof Mecanico mecanico) {
             mecanico = new Mecanico(mecanico);
@@ -35,9 +36,9 @@ public class Trabajo {
         }
         return trabajo;
     }
-    public Trabajo get(Vehiculo vehiculo) {
+    public static final Trabajo get(Vehiculo vehiculo) {
         Objects.requireNonNull(vehiculo, "El vehiculo no puede ser nulo");
-        return new Trabajo(cliente.getDni(), vehiculo, fechaInicio);
+        return new Trabajo(cliente, vehiculo, fechaInicio);
     }
 
     public Cliente getCliente() {
@@ -110,8 +111,8 @@ public class Trabajo {
     }
 
     public float getPrecio() {
-        float precioFijo = PRECIO_DIA * getDias() + PRECIO_HORA * getHoras();
-        float precioEspecificado = Revision.PRECIO_MATERIAL * precioMaterial;
+        float precioFijo = FACTOR_DIA * getDias() + horas * getHoras();
+        float precioEspecificado = Revision.getPrecioMaterial() * mecanico.precioMaterial;
         return precioFijo + precioEspecificado;
 
     }
@@ -120,14 +121,7 @@ public class Trabajo {
         return (estaCerrada()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
     }
 
-    public abstract float getPrecioEspecifico() {
-        if (Trabajo instanceof Mecanico mecanico) {
-            return mecanico.getPrecioEspecifico();
-        } else if (Trabajo instanceof  Revision revision) {
-            return revision.getPrecioEspecifico();
-        }
-        return
-    }
+    public abstract float getPrecioEspecifico();
 
     @Override
     public boolean equals(Object o) {
