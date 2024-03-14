@@ -25,7 +25,7 @@ class TrabajosTest {
     private static Vehiculo vehiculo2;
     private static LocalDate hoy;
     private static LocalDate ayer;
-    private static LocalDate anteayer;
+    private static Trabajo anteayer;
     private static LocalDate semanaPasada;
     private ITrabajos trabajos;
 

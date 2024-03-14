@@ -34,7 +34,7 @@ public class Trabajos implements ITrabajos {
         List<Trabajo> revisionesVehiculo = new ArrayList<>();
         for (Trabajo revision : coleccionTrabajos) {
             if (revision.getVehiculo().equals(vehiculo)) {
-                coleccionTrabajos.add(revision);
+                revisionesVehiculo.add(revision);
             }
         }
         return revisionesVehiculo;
@@ -42,12 +42,12 @@ public class Trabajos implements ITrabajos {
     @Override
     public void insertar(Trabajo trabajo) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
-        comprobarTrabajo(trabajo.getCliente(), trabajo.getVehiculo(), trabajo.getFechaFin());
+        comprobarTrabajo(trabajo.getCliente(), trabajo.getVehiculo(), trabajo.getFechaInicio());
         coleccionTrabajos.add(trabajo);
     }
     private void comprobarTrabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaRevision) throws OperationNotSupportedException {
         for (Trabajo revision : coleccionTrabajos) {
-            if (!revision.estaCerrada()) {
+            if (!revision.estaCerrado()) {
                 if (revision.getCliente().equals(cliente)) {
                     throw new OperationNotSupportedException("El cliente tiene otra revision en curso");
                 } else if (revision.getVehiculo().equals(vehiculo)) {
@@ -57,32 +57,34 @@ public class Trabajos implements ITrabajos {
                 if (revision.getCliente().equals(cliente) && !fechaRevision.isAfter(revision.getFechaFin())) {
                     throw new OperationNotSupportedException("El cliente tiene una revision posterior.");
                 } else if (revision.getVehiculo().equals(vehiculo) && !fechaRevision.isAfter(revision.getFechaFin())) {
-                    throw new OperationNotSupportedException("El vehiculo tiene una revision posteior.");
+                    throw new OperationNotSupportedException("El vehiculo tiene una revision posterior.");
                 }
             }
         }
     }
     @Override
-    public  void anadirHoras(Trabajo trabajo, int horas) {
+    public  void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
+        Mecanico revisionAbierta = (Mecanico) getTrabajoAbierto(trabajo.getVehiculo());
+        revisionAbierta.anadirHoras(trabajo, horas);
 
     }
-    private Trabajo getTrabajoAbierto(Vehiculo vehiculo) throws OperationNotSupportedException {
-        for (Trabajo revision : coleccionTrabajos) {
-            if (revision.getVehiculo().equals(vehiculo) && !revision.estaCerrada()) {
-                return revision;
-            }
-        }
-        throw new OperationNotSupportedException("No se encontro un trabajo abierto para el vehiculo indicado.");
-    }
     @Override
-    public void anadirPrecioMaterial(float precioMaterial, Trabajo trabajo) throws OperationNotSupportedException {
+    public void anadirPrecioMaterial(Trabajo trabajo, float precioMaterial) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
         Mecanico revisionAbierta = (Mecanico) getTrabajoAbierto(trabajo.getVehiculo());
         revisionAbierta.anadirPrecioMaterial(precioMaterial);
     }
+    private Trabajo getTrabajoAbierto(Vehiculo vehiculo) throws OperationNotSupportedException {
+        for (Trabajo revision : coleccionTrabajos) {
+            if (revision.getVehiculo().equals(vehiculo) && !revision.estaCerrado()) {
+                return revision;
+            }
+        }
+        throw new OperationNotSupportedException("No se encontró un trabajo abierto para el vehiculo indicado.");
+    }
     @Override
-    public void cerrar(LocalDate fechaFin, Trabajo trabajo) throws OperationNotSupportedException {
+    public void cerrar(Trabajo trabajo, LocalDate fechaFin) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
         Trabajo revisionAbierta = getTrabajoAbierto(trabajo.getVehiculo());
         revisionAbierta.cerrar(fechaFin);

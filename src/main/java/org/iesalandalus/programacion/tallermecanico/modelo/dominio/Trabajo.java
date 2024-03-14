@@ -36,7 +36,7 @@ public abstract class Trabajo {
         }
         return trabajo;
     }
-    public Trabajo get(Vehiculo vehiculo) {
+    public static Trabajo get(Vehiculo vehiculo) {
         return new Revision(new Cliente("Alejandro", "26457854H", "845290112"), vehiculo, LocalDate.now());
     }
 
@@ -88,22 +88,22 @@ public abstract class Trabajo {
         return horas;
     }
 
-    public void anadirHoras(int horas) throws OperationNotSupportedException {
+    public void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException {
         if (horas <= 0) {
             throw new IllegalArgumentException("Las horas a añadir deben ser mayores que cero.");
         }
-        if (estaCerrada()) {
+        if (estaCerrado()) {
             throw new OperationNotSupportedException("No se puede añadir horas, ya que la revisión está cerrada.");
         }
         this.horas += horas;
     }
 
-    public boolean estaCerrada() {
+    public boolean estaCerrado() {
         return fechaFin != null;
     }
 
     public void cerrar(LocalDate fechaFin) throws OperationNotSupportedException {
-        if (estaCerrada()) {
+        if (estaCerrado()) {
             throw new OperationNotSupportedException("La revisión ya está cerrada.");
         }
         setFechaFin(fechaFin);
@@ -117,7 +117,7 @@ public abstract class Trabajo {
     }
 
     private float getDias() {
-        return (estaCerrada()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
+        return (estaCerrado()) ? ChronoUnit.DAYS.between(fechaInicio, fechaFin) : 0;
     }
 
     public abstract float getPrecioEspecifico();

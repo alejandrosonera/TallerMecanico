@@ -38,7 +38,7 @@ public class Revision extends Trabajo {
         if(precioMaterial <= 0){
             throw new IllegalArgumentException("El precio del material a añadir debe ser mayor que cero.");
         }
-        if (estaCerrada()) {
+        if (estaCerrado()) {
             throw new OperationNotSupportedException("No se puede añadir precio del material, ya que la revisión está cerrada.");
         }
         this.precioMaterial += precioMaterial;
@@ -50,7 +50,7 @@ public class Revision extends Trabajo {
     @Override
     public String toString() {
         String cadenaADevolver;
-        if (!estaCerrada()) {
+        if (!estaCerrado()) {
             cadenaADevolver = String.format("%s - %s: (%s - ), %d horas, %.2f € en material", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas, getPrecio());
         } else {
             cadenaADevolver = String.format("%s - %s: (%s - %s), %d horas, %.2f € en material, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecioMaterial(), getPrecio());

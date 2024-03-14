@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.negocio;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Trabajo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 
@@ -17,11 +18,12 @@ public interface ITrabajos {
 
     void insertar(Trabajo trabajo) throws OperationNotSupportedException;
 
-    void anadirHoras(Trabajo trabajo, int horas);
+    void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException;
 
-    void anadirPrecioMaterial(float precioMaterial, Trabajo trabajo) throws OperationNotSupportedException;
+    void anadirPrecioMaterial(Trabajo trabajo, float precioMaterial) throws OperationNotSupportedException;
 
-    void cerrar(LocalDate fechaFin, Trabajo trabajo) throws OperationNotSupportedException;
+
+    void cerrar(Trabajo trabajo, LocalDate fechaFin) throws OperationNotSupportedException;
 
     Trabajo buscar(Trabajo trabajo);
 
