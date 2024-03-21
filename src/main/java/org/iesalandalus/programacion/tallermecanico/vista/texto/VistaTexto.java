@@ -1,53 +1,103 @@
-package org.iesalandalus.programacion.tallermecanico.vista;
+package org.iesalandalus.programacion.tallermecanico.vista.texto;
 
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
+import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.List;
 import java.util.Objects;
 
-public class Vista {
-    private Controlador controlador;
+public class VistaTexto {
 
-    public void setControlador(Controlador controlador) {
-        Objects.requireNonNull(controlador, "El controlador no puede ser nulo");
-        this.controlador = controlador;
+    public GestorEventos getGestorEventos() {
+        return getGestorEventos();
     }
+
     public void comenzar() {
-        Opcion opcion;
+        Evento evento;
         do {
             Consola.mostrarMenu();
-            opcion = Consola.elegirOpcion();
-        } while (opcion != Opcion.SALIR);
+            evento = Consola.elegirOpcion();
+            Consola.mostrarCabecera();
+            ejecutar(evento);
+        } while (evento != Evento.SALIR);
+        terminar();
     }
     public void terminar() {
-        System.out.print("Hasta luego!!!");
+        System.out.printf("Hasta luego!!!%n");
     }
-    private void ejecutar(Opcion opcion) {
-        switch (opcion) {
-            case SALIR -> salir();
-            case INSERTAR_CLIENTE -> insertarCliente();
-            case BORRAR_CLIENTE -> borrarCliente();
-            case BUSCAR_CLIENTE -> buscarCliente();
-            case BORRAR_REVISION -> borrarRevision();
-            case BORRAR_VEHICULO -> borrarVehiculo();
-            case BUSCAR_REVISION -> buscarRevision();
-            case BUSCAR_VEHICULO -> buscarVehiculo();
-            case CERRAR_REVISION -> cerrarRevision();
-            case LISTAR_VEHICULOS -> listarVehiculos();
-            case INSERTAR_REVISION -> insertarRevision();
-            case INSERTAR_VEHICULO -> insertarVehiculo();
-            case LISTAR_REVISIONES -> listarRevisiones();
-            case MODIFICAR_CLIENTE -> modificarCliente();
-            case ANADIR_HORAS_REVISION -> anadirHoras();
-            case LISTAR_REVISIONES_CLIENTE -> listarRevisionesCliente();
-            case LISTAR_REVISIONES_VEHICULO -> listarRevisionesVehiculo();
-            case ANADIR_PRECIO_MATERIAL_REVISION -> anadirPrecioMaterialRevision();
-            default -> throw new IllegalArgumentException("La opción no es valida");
-        }
+    private void ejecutar(Evento opcion) {
+        getGestorEventos().notificar(opcion);
+    }
+
+    public Cliente leerCliente() {
+        Cliente cliente = null;
+        boolean clienteCorrecto = false;
+        do {
+            try {
+                cliente = new Cliente(Consola.leerCadena("Dime el nombre del cliente: "), Consola.leerCadena("Dime el dni del cliente: "), Consola.leerCadena("Dime el telefono del cliente: "));
+                clienteCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!clienteCorrecto);
+        return cliente;
+    }
+
+    public Cliente leerClienteDni() {
+        Cliente cliente = null;
+        boolean clienteCorrecto = false;
+        do {
+            try {
+                cliente = new Cliente(Cliente.get(Consola.leerCadena("Dime el dni del cliente: ")));
+                clienteCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!clienteCorrecto);
+        return cliente;
+    }
+
+    public String leerNuevoNombre() {
+        String nombre;
+        boolean nombreCorrecto = false;
+        do {
+            nombre = Consola.leerCadena("Dime el nuevo nombre del cliente: ");
+            if (!nombre.isBlank()) {
+                try {
+                    new Cliente(nombre, VistaTexto.DNI_EJEMPLO, "83829034P");
+                    nombreCorrecto = true;
+                } catch (IllegalArgumentException | NullPointerException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                nombreCorrecto = true;
+            }
+        } while (!nombreCorrecto);
+        return nombre;
+    }
+
+    public String leerNuevoTelefono() {
+        String telefono;
+        boolean telefonoCorrecto = false;
+        do {
+            telefono = Consola.leerCadena("Dime el nuevo telefono del cliente: ");
+            if (telefono.isBlank()) {
+                try {
+                    new Cliente("Juan", VistaTexto.DNI_EJEMPLO, telefono);
+                    telefonoCorrecto = true;
+                } catch (IllegalArgumentException | NullPointerException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                telefonoCorrecto = true;
+            }
+        } while (!telefonoCorrecto);
+        return telefono;
     }
 
     private void anadirHoras() {

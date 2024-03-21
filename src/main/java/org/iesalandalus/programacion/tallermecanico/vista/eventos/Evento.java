@@ -4,26 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Evento {
-    INSERTAR_CLIENTE,
-    BUSCAR_CLIENTE,
-    BORRAR_CLIENTE,
-    LISTAR_CLIENTES,
-    MODIFICAR_CLIENTE,
-    INSERTAR_VEHICULO,
-    BUSCAR_VEHICULO,
-    BORRAR_VEHICULO,
-    LISTAR_VEHICULOS,
-    INSERTAR_REVISION,
-    INSERTAR_MECANICO,
-    BUSCAR_TRABAJO,
-    BORRAR_TRABAJO,
-    LISTAR_TRABAJOS,
-    LISTAR_TRABAJOS_CLIENTE,
-    LISTAR_TRABAJOS_VEHICULO,
-    ANADIR_HORAS_TRABAJO,
-    ANADIR_PRECIO_MATERIAL_TRABAJO,
-    CERRAR_TRABAJO,
-    SALIR,
+    INSERTAR_CLIENTE(1, "Insertar Cliente"),
+    BUSCAR_CLIENTE(2, "Buscar Cliente"),
+    BORRAR_CLIENTE(3, "Borrar Clientes"),
+    LISTAR_CLIENTES(4, "Listar Clientes"),
+    MODIFICAR_CLIENTE(5, "Modificar cliente"),
+    INSERTAR_VEHICULO(6, "Insertar Vehiculo"),
+    BUSCAR_VEHICULO(7, "Buscar vehiculo"),
+    BORRAR_VEHICULO(8, "Borrar vehiculo"),
+    LISTAR_VEHICULOS(9, "Listar Vehiculos"),
+    INSERTAR_REVISION(10, "Insertar Revision"),
+    INSERTAR_MECANICO(11, "Insertar Mecanico"),
+    BUSCAR_TRABAJO(12, "Buscar trabajo"),
+    BORRAR_TRABAJO(13, "Borrar trabajo"),
+    LISTAR_TRABAJOS(14, "Listar Trabajos"),
+    LISTAR_TRABAJOS_CLIENTE(15, "Listar Trabajos Clientes"),
+    LISTAR_TRABAJOS_VEHICULO(16, "Listar Trabajos Vehiculos"),
+    ANADIR_HORAS_TRABAJO(17, "Añadir horas al trabajo"),
+    ANADIR_PRECIO_MATERIAL_TRABAJO(18, "Añadir precio material al trabajo"),
+    CERRAR_TRABAJO(19, "Cerrar Trabajo"),
+    SALIR(20, "Salir");
 
     private int codigo;
     private String texto;
@@ -31,21 +31,21 @@ public enum Evento {
 
     static {
         eventos = new HashMap<>();
-        for (int i = 0; i < Evento.values().length; i++) {
-            eventos.put(i, Evento.values()[i]);
+        for (Evento opcion : values()) {
+            eventos.put(opcion.codigo, opcion);
         }
     }
-    private Evento(int codigo, String texto) {
+    Evento(int codigo, String texto) {
         this.texto = texto;
-        esValido(codigo);
+        this.codigo = codigo;
     }
-    public static boolean esValido(int codigo) {
-        if (!eventos.containsKey(codigo)) {
-            throw new IllegalArgumentException("Código no válido.");
-        }
-        return true;
+    public static boolean esValido(int numeroOpcion) {
+        return eventos.containsKey(numeroOpcion);
     }
     public static Evento get(int codigo) {
+        if (!esValido(codigo)) {
+            throw new IllegalArgumentException("Opcion no valida.");
+        }
         return eventos.get(codigo);
     }
     public String toString() {

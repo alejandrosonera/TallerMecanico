@@ -1,23 +1,20 @@
 package org.iesalandalus.programacion.tallermecanico.controlador;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.negocio.FabricaFuenteDatos;
-import org.iesalandalus.programacion.tallermecanico.vista.Vista;
+import org.iesalandalus.programacion.tallermecanico.vista.texto.VistaTexto;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 
 import java.util.Objects;
 
 public class Controlador implements IControlador {
-    private Vista vista;
+    private VistaTexto vista;
     private ModeloCascada modelo;
 
-    public Controlador(ModeloCascada modelo, Vista vista) {
+    public Controlador(ModeloCascada modelo, VistaTexto vista) {
         Objects.requireNonNull(modelo, "El modelo no puede ser nulo.");
         Objects.requireNonNull(vista, "La vista no puede ser nula");
         this.vista = vista;
-        this.modelo = new ModeloCascada(FabricaFuenteDatos.MEMORIA);
-        vista.setControlador(this);
+        this.modelo = modelo;
     }
     @Override
     public void comenzar() {
@@ -33,7 +30,7 @@ public class Controlador implements IControlador {
     public void actualizar(Evento evento) {
         Objects.requireNonNull(evento, "El evento no puede ser nulo.");
         switch (evento) {
-            case INSERTAR_CLIENTE -> modelo.insertar;
+            case INSERTAR_CLIENTE -> modelo.insertar(vista.leer);
         }
 
     }
