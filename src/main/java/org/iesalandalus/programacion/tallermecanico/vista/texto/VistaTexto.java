@@ -1,13 +1,12 @@
 package org.iesalandalus.programacion.tallermecanico.vista.texto;
 
 import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
 
 import javax.naming.OperationNotSupportedException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,9 +26,11 @@ public class VistaTexto {
         } while (evento != Evento.SALIR);
         terminar();
     }
+
     public void terminar() {
         System.out.printf("Hasta luego!!!%n");
     }
+
     private void ejecutar(Evento opcion) {
         getGestorEventos().notificar(opcion);
     }
@@ -100,182 +101,110 @@ public class VistaTexto {
         return telefono;
     }
 
-    private void anadirHoras() {
-        Consola.mostrarCabecera("AÑADIR HORAS");
-        try {
-            controlador.anadirHoras(Consola.leerRevision(), Consola.leerHoras());
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void anadirPrecioMaterialRevision() {
-        Consola.mostrarCabecera("AÑADIR PRECIO MATERIAL REVISION");
-        try {
-            controlador.anadirPrecioMaterial(Consola.leerRevision(), Consola.leerHoras());
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void listarRevisionesVehiculo() {
-        Consola.mostrarCabecera("LISTAR REVISIONES DEL VEHICULO");
-        List<Revision> revisionesVehiculos = controlador.getRevisiones(Consola.leerVehiculoMatricula());
-        if (revisionesVehiculos.isEmpty()) {
-            System.out.println("La lista de revisiones esta vacía");
-        }
-        System.out.println(revisionesVehiculos);
-    }
-
-    private void listarRevisionesCliente() {
-        Consola.mostrarCabecera("LISTAR REVISIONES DEL CLIENTE");
-        List<Revision> revisionesClientes = controlador.getRevisiones(Consola.leerClienteDni());
-        if (revisionesClientes.isEmpty()) {
-            System.out.println("La lista de revisiones esta vacia");
-        }
-        System.out.println(revisionesClientes);
-    }
-
-    private void modificarCliente() {
-        Consola.mostrarCabecera("MODIFICAR CLIENTE");
-        boolean modificado = true;
-        try {
-            modificado = controlador.modificar(Consola.leerClienteDni(), Consola.leerNuevoNombre(), Consola.leerNuevoTelefono());
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-        if (modificado) {
-            System.out.println("El cliente se ha modificado con exito");
-        }
-    }
-
-    private void listarRevisiones() {
-        Consola.mostrarCabecera("LISTAR REVISIONES");
-        List<Revision> revisiones = controlador.getRevisiones();
-        if (revisiones.isEmpty()) {
-            System.out.println("La lista de revisiones esta vacia");
-        }
-        System.out.println(revisiones);
-    }
-
-    private void insertarVehiculo() {
-        Consola.mostrarCabecera("INSERTAR VEHICULO");
-        try {
-            controlador.insertar(Consola.leerVehiculo());
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void insertarRevision() {
-        Consola.mostrarCabecera("INSERTAR REVISION");
-        try {
-            controlador.insertar(Consola.leerRevision());
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void listarVehiculos() {
-        Consola.mostrarCabecera("LISTAR VEHICULOS");
-        List<Vehiculo> listaVehivulos = controlador.getVehiculos();
-        if(listaVehivulos.isEmpty()){
-            System.out.println("La lista de vehiculos ");
-        } else{
-            System.out.println(listaVehivulos);
-        }
-    }
-
-    private void cerrarRevision() {
-        Consola.mostrarCabecera("CERRAR REVISION");
-        try {
-            controlador.cerrar(Consola.leerRevision(), Consola.leerFechaCierre());
-            System.out.println("Revision cerrada correctamente");
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void buscarVehiculo() {
-        Consola.mostrarCabecera("BUSCAR VEHICULO");
-        try {
-            Vehiculo vehiculo = controlador.buscar(Consola.leerVehiculoMatricula());
-            if (vehiculo == null) {
-                System.out.println("El vehiculo con la matricula introducida no existe");
-            } else {
-                System.out.println("Se ha encontrado un vehiculo con la matricula: " + vehiculo.matricula());
+    public Vehiculo leerVehiculo() {
+        Vehiculo vehiculo = null;
+        boolean vehiculoCorrecto = false;
+        do {
+            try {
+                vehiculo = new Vehiculo(Consola.leerCadena("Dime la marca del vehiculo: "), Consola.leerCadena("Dime el modelo del vehiculo: "), Consola.leerCadena("Dime la matricula del vehiculo: "));
+                vehiculoCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+        } while (!vehiculoCorrecto);
+        return vehiculo;
     }
 
-    private void buscarRevision() {
-        Consola.mostrarCabecera("BUSCAR REVISION");
-        try {
-            Revision revision = controlador.buscar(Consola.leerRevision());
-            if (revision == null) {
-                System.out.println("La revision introducida no existe");
-            } else {
-                System.out.println("Se ha encontrado una revision: " + revision);
+    public Vehiculo leerVehiculoMatricula() {
+        Vehiculo vehiculo = null;
+        boolean vehiculoCorrecto = false;
+        do {
+            try {
+                vehiculo = Vehiculo.get(Consola.leerCadena("Dime la matriculad del vehiculo: "));
+                vehiculoCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+        } while (!vehiculoCorrecto);
+        return vehiculo;
     }
 
-    private void borrarVehiculo() {
-        Consola.mostrarCabecera("BORRAR VEHICULO");
-        try {
-            controlador.borrar(Consola.leerVehiculoMatricula());
-            System.out.println("Vehiculo borrado correctamente");
-        } catch (OperationNotSupportedException | NullPointerException | IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+    public Trabajo leerRevision() {
+        Revision revision = null;
+        boolean trabajoCorrecto = false;
+        do {
+            try {
+                revision = new Revision(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
+                trabajoCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!trabajoCorrecto);
+        return revision;
     }
 
-    private void borrarRevision() {
-        Consola.mostrarCabecera("BORRAR REVISION");
-        try {
-            controlador.borrar(Consola.leerRevision());
-            System.out.println("Revision borrada correctamente");
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+    public Trabajo leerMecanico() {
+        Trabajo mecanico = null;
+        boolean trabajoCorrecto = false;
+        do {
+            try {
+                mecanico = new Mecanico(leerClienteDni(), leerVehiculoMatricula(), Consola.leerFecha("Dime la fecha de inicio del trabajo: "));
+                trabajoCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!trabajoCorrecto);
+        return mecanico;
     }
 
-    private void buscarCliente() {
-        Consola.mostrarCabecera("BUSCAR CLIENTE");
-        Cliente cliente = controlador.buscar(Consola.leerClienteDni());
-        if (cliente == null) {
-            System.out.println("El cliente con el dni introducido no existe");
-        } else {
-            System.out.println("Se ha encontrado un cliente con el dni: " + cliente.getDni());
-        }
+    public Trabajo leerTrabajoVehiculo() {
+        return Trabajo.get(leerVehiculo());
     }
 
-    private void borrarCliente() {
-        Consola.mostrarCabecera("BORRAR VEHICULO");
-        try {
-            controlador.borrar(Consola.leerClienteDni());
-            System.out.println("Cliente borrado con exito");
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+    public int leerHoras() {
+        int horas;
+        boolean horasCorrectas = false;
+        do {
+            horas = Consola.leerEntero("Dime las horas que quieres añadir: ");
+            try {
+                Revision revision = new Revision(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.now());
+                revision.anadirHoras(horas);
+                horasCorrectas = true;
+            } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!horasCorrectas);
+        return horas;
     }
 
-    private void insertarCliente() {
-        Consola.mostrarCabecera("INSERTAR CLIENTE");
-        try {
-            controlador.insertar(Consola.leerClienteDni());
-            System.out.println("Cliente insertado correctamente");
-        } catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
+    public float leerPrecioMaterial() {
+        float precioMaterial;
+        boolean precioCorrecto = false;
+        do {
+            precioMaterial = Consola.leerReal("Dime el precio que quieres añadir");
+            try {
+                Mecanico mecanico = new Mecanico(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.now());
+                mecanico.anadirPrecioMaterial(precioMaterial);
+                precioCorrecto = true;
+            } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!precioCorrecto);
+        return precioMaterial;
     }
 
-    private void salir() {
-        Consola.mostrarCabecera("SALIR");
-        controlador.terminar();
+    public LocalDate leerFechaCierre() {
+        LocalDate fechaCierre;
+        boolean fechaCierreCorrecta = false;
+        do {
+            fechaCierre = Consola.leerFecha("Dime la fecha de cierre: ");
+            try {
+                Revision revision = new Revision(Cliente.get(VistaTexto.DNI_EJEMPLO), Vehiculo.get(VistaTexto.MATRICULA_DEFECTO), LocalDate.of(1990, 1, 1));
+                revision.cerrar(fechaCierre);
+            } catch (IllegalArgumentException | OperationNotSupportedException | NullPointerException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (!fechaCierreCorrecta);
+        return fechaCierre;
     }
 }

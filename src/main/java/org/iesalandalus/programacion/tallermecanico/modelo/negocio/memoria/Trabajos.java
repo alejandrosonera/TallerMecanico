@@ -66,7 +66,7 @@ public class Trabajos implements ITrabajos {
     public  void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
         Mecanico revisionAbierta = (Mecanico) getTrabajoAbierto(trabajo.getVehiculo());
-        revisionAbierta.anadirHoras(trabajo, horas);
+        revisionAbierta.anadirHoras(horas);
 
     }
     @Override

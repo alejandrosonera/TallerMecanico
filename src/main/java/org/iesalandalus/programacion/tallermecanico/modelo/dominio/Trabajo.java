@@ -89,7 +89,7 @@ public abstract class Trabajo {
         return horas;
     }
 
-    public void anadirHoras(Trabajo trabajo, int horas) throws OperationNotSupportedException {
+    public void anadirHoras(int horas) throws OperationNotSupportedException {
         if (horas <= 0) {
             throw new IllegalArgumentException("Las horas a añadir deben ser mayores que cero.");
         }

@@ -26,7 +26,7 @@ public class Consola {
             System.out.println(Evento.values()[i]);
         }
     }
-    private static float leerReal(String mensaje) {
+    static float leerReal(String mensaje) {
         System.out.println(mensaje);
         return Entrada.real();
     }

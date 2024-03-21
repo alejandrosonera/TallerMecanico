@@ -104,7 +104,7 @@ class MecanicoTest {
 
     @Test
     void constructorMecanicoValidoCopiaMecanicoCorrectamente() {
-        assertDoesNotThrow(() -> mecanico.anadirHoras(trabajo, 5));
+        assertDoesNotThrow(() -> mecanico.anadirHoras(5));
         assertDoesNotThrow(() -> mecanico.anadirPrecioMaterial(100));
         assertDoesNotThrow(() -> mecanico.cerrar(hoy));
         Mecanico copiaMecanico = new Mecanico(mecanico);
@@ -124,22 +124,22 @@ class MecanicoTest {
 
     @Test
     void anadirHorasHorasValidasSumaHorasCorrectamente() {
-        assertDoesNotThrow(() -> mecanico.anadirHoras(trabajo, 5));
+        assertDoesNotThrow(() -> mecanico.anadirHoras(5));
         assertEquals(5, mecanico.getHoras());
-        assertDoesNotThrow(() -> mecanico.anadirHoras(trabajo, 5));
+        assertDoesNotThrow(() -> mecanico.anadirHoras(5));
         assertEquals(10, mecanico.getHoras());
     }
 
     @Test
     void anadirHorasHorasNoValidasLanzaExcepcion() {
-        IllegalArgumentException iae = assertThrows(IllegalArgumentException.class, () -> mecanico.anadirHoras(trabajo, 0));
+        IllegalArgumentException iae = assertThrows(IllegalArgumentException.class, () -> mecanico.anadirHoras(0));
         assertEquals("Las horas a añadir deben ser mayores que cero.", iae.getMessage());
     }
 
     @Test
     void anadirHorasMecanicoCerradoLanzaExcepcion() {
         assertDoesNotThrow(() -> mecanico.cerrar(hoy));
-        OperationNotSupportedException onse = assertThrows(OperationNotSupportedException.class, () -> mecanico.anadirHoras(trabajo, 5));
+        OperationNotSupportedException onse = assertThrows(OperationNotSupportedException.class, () -> mecanico.anadirHoras(5));
         assertEquals("No se puede añadir horas, ya que el trabajo está cerrado.", onse.getMessage());
     }
 
@@ -170,7 +170,7 @@ class MecanicoTest {
             "0, 10, 100, 450.0", "1, 10, 100, 460.0", "5, 10, 100, 500.0"})
     void getPrecioCalculaCorrectamentePrecio(int dias, int horas, float precioMaterial, float precio) {
         Mecanico mecanicoSemanaPAsada = new Mecanico(cliente, vehiculo, semanaPasada);
-        assertDoesNotThrow(() -> mecanicoSemanaPAsada.anadirHoras(trabajo, horas));
+        assertDoesNotThrow(() -> mecanicoSemanaPAsada.anadirHoras(horas));
         assertDoesNotThrow(() -> mecanicoSemanaPAsada.anadirPrecioMaterial(precioMaterial));
         LocalDate fechaFin = semanaPasada.plusDays(dias);
         assertDoesNotThrow(() -> mecanicoSemanaPAsada.cerrar(fechaFin));
