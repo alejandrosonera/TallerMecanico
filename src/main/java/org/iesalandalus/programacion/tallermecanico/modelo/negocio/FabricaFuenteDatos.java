@@ -8,7 +8,7 @@ public enum FabricaFuenteDatos {
     MEMORIA {
         @Override
         public IFuenteDatos crear() {
-            return
+            return new FuenteDatosMemoria();
         }
     };
 
