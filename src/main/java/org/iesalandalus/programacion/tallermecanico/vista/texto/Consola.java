@@ -1,65 +1,68 @@
 package org.iesalandalus.programacion.tallermecanico.vista.texto;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
-import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Random;
-import java.util.regex.Pattern;
 
 public class Consola {
+
     private static final String CADENA_FORMATO_FECHA ="dd/MM/yyyy";
 
+    private Consola() {}
+
     static void mostrarCabecera(String mensaje) {
-        System.out.println(/*ESPACIO*/);
-        System.out.println(mensaje);
-        System.out.println("_".repeat(mensaje.length()));
+        System.out.printf("%n%s%n", mensaje);
+        String formatoStr = "%0" + mensaje.length() + "d%n";
+        System.out.println(String.format(formatoStr, 0).replace("0", "-"));
     }
+
     static void mostrarMenu() {
-        mostrarCabecera("----OPCIONES----");
-        for (int i = 0; i < Evento.values().length; i++) {
-            System.out.println(Evento.values()[i]);
+        mostrarCabecera("Gestión de un taller mecánico.");
+        for (Evento opcion : Evento.values()) {
+            System.out.printf("%d.- %s%n", opcion.getCodigo(), opcion);
         }
     }
-    static float leerReal(String mensaje) {
-        System.out.println(mensaje);
-        return Entrada.real();
+
+    static Evento elegirOpcion() {
+        Evento opcion = null;
+        do {
+            try {
+                opcion = Evento.get(leerEntero("\nElige un opción: "));
+            } catch (IllegalArgumentException e) {
+                System.out.printf("ERROR: %s%n", e.getMessage());
+            }
+        } while (opcion == null);
+        return opcion;
     }
+
     static int leerEntero(String mensaje) {
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         return Entrada.entero();
     }
+
+    static float leerReal(String mensaje) {
+        System.out.print(mensaje);
+        return Entrada.real();
+    }
+
     static String leerCadena(String mensaje) {
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         return Entrada.cadena();
     }
+
     static LocalDate leerFecha(String mensaje) {
-        Pattern patron = Pattern.compile(CADENA_FORMATO_FECHA);
-        DateTimeFormatter comparador = DateTimeFormatter.ofPattern(String.valueOf(patron));
-        LocalDate fecha = null;
+        LocalDate fecha;
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern(CADENA_FORMATO_FECHA);
+        mensaje = String.format("%s (%s): ", mensaje, CADENA_FORMATO_FECHA);
         try {
-            String cadenaFecha = leerCadena(mensaje);
-            fecha = LocalDate.parse(cadenaFecha, comparador);
+            fecha = LocalDate.parse(leerCadena(mensaje), formatoFecha);
         } catch (DateTimeParseException e) {
-            System.out.println("La fecha introducida no es valida.");
+            fecha = null;
         }
         return fecha;
     }
-    static Evento elegirOpcion() {
-        int numeroOpcion;
-        while (true) {
-            System.out.print("Introduce el numero de la opción: ");
-            numeroOpcion = Entrada.entero();
-            if (Evento.esValido(numeroOpcion)) {
-                return Evento.get(numeroOpcion);
-            } else {
-                System.out.println("Opcion no valida. Vuelva a intentarlo");
-            }
-        }
-    }
+
 }
