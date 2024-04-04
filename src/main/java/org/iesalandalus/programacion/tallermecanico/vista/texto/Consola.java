@@ -6,36 +6,37 @@ import org.iesalandalus.programacion.utilidades.Entrada;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Pattern;
 
 public class Consola {
-
-    private static final String CADENA_FORMATO_FECHA ="dd/MM/yyyy";
-
     private Consola() {}
 
-    static void mostrarCabecera(String mensaje) {
-        System.out.printf("%n%s%n", mensaje);
-        String formatoStr = "%0" + mensaje.length() + "d%n";
-        System.out.println(String.format(formatoStr, 0).replace("0", "-"));
-    }
+    private static final String CADENA_FORMATO_FECHA = "dd/MM/yyyy";
 
-    static void mostrarMenu() {
-        mostrarCabecera("Gestión de un taller mecánico.");
-        for (Evento opcion : Evento.values()) {
-            System.out.printf("%d.- %s%n", opcion.getCodigo(), opcion);
-        }
+    static void mostraCabecera(String mensaje) {
+        System.out.println(/*ESPACIO*/);
+        System.out.println(mensaje);
+        System.out.println("-".repeat(mensaje.length()));
     }
 
     static Evento elegirOpcion() {
-        Evento opcion = null;
-        do {
-            try {
-                opcion = Evento.get(leerEntero("\nElige un opción: "));
-            } catch (IllegalArgumentException e) {
-                System.out.printf("ERROR: %s%n", e.getMessage());
+        int numeroOpcion;
+        while (true) {
+            System.out.print("Introduce el número de la opción: ");
+            numeroOpcion = Entrada.entero();
+            if (Evento.esValido(numeroOpcion)) {
+                return Evento.get(leerEntero("Elegir opción."));
+            } else {
+                System.out.println("Opción no válida. Por favor, vuelve a intentarlo.");
             }
-        } while (opcion == null);
-        return opcion;
+        }
+    }
+
+    static void mostrarMenu() {
+        mostraCabecera("OPCIONES");
+        for (int i = 0; i < Evento.values().length; i++) {
+            System.out.println(Evento.values()[i]);
+        }
     }
 
     static int leerEntero(String mensaje) {
@@ -54,15 +55,15 @@ public class Consola {
     }
 
     static LocalDate leerFecha(String mensaje) {
-        LocalDate fecha;
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern(CADENA_FORMATO_FECHA);
-        mensaje = String.format("%s (%s): ", mensaje, CADENA_FORMATO_FECHA);
+        Pattern patron = Pattern.compile(CADENA_FORMATO_FECHA);
+        DateTimeFormatter comparador = DateTimeFormatter.ofPattern(String.valueOf(patron));
+        LocalDate fecha = null;
         try {
-            fecha = LocalDate.parse(leerCadena(mensaje), formatoFecha);
+            String cadenaFecha = leerCadena(mensaje);
+            fecha = LocalDate.parse(cadenaFecha, comparador);
         } catch (DateTimeParseException e) {
-            fecha = null;
+            System.out.println("La fecha introducida no es válida, inténtelo de nuevo.");
         }
         return fecha;
     }
-
 }
