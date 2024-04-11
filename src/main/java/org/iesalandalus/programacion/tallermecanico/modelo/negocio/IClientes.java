@@ -16,4 +16,3 @@ public interface IClientes {
 
     void borrar(Cliente cliente) throws OperationNotSupportedException;
 }
-

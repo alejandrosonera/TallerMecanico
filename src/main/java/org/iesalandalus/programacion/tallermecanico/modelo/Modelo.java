@@ -49,4 +49,3 @@ public interface Modelo {
 
     List<Trabajo> getTrabajos(Vehiculo vehiculo);
 }
-

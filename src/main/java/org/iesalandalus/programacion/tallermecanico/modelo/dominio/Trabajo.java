@@ -10,11 +10,11 @@ public abstract class Trabajo {
     static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final float FACTOR_DIA = 10F;
 
-    private Cliente cliente;
-    private Vehiculo vehiculo;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private int horas;
+    protected Cliente cliente;
+    protected Vehiculo vehiculo;
+    protected LocalDate fechaInicio;
+    protected LocalDate fechaFin;
+    protected int horas;
 
 
     protected Trabajo(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
@@ -54,7 +54,7 @@ public abstract class Trabajo {
         return cliente;
     }
 
-    private void setCliente(Cliente cliente) {
+    protected void setCliente(Cliente cliente) {
         Objects.requireNonNull(cliente, "El cliente no puede ser nulo.");
         this.cliente = cliente;
     }
@@ -63,7 +63,7 @@ public abstract class Trabajo {
         return vehiculo;
     }
 
-    private void setVehiculo(Vehiculo vehiculo) {
+    protected void setVehiculo(Vehiculo vehiculo) {
         Objects.requireNonNull(vehiculo, "El vehículo no puede ser nulo.");
         this.vehiculo = vehiculo;
     }
@@ -72,7 +72,7 @@ public abstract class Trabajo {
         return fechaInicio;
     }
 
-    private void setFechaInicio(LocalDate fechaInicio) {
+    protected void setFechaInicio(LocalDate fechaInicio) {
         Objects.requireNonNull(fechaInicio, "La fecha de inicio no puede ser nula.");
         if (fechaInicio.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de inicio no puede ser futura.");

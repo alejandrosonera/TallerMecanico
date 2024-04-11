@@ -23,11 +23,10 @@ public class Revision extends Trabajo {
     public String toString() {
         String cadena;
         if (!estaCerrado()) {
-            cadena = String.format("Revisión -> %s - %s (%s - ): %d horas", getCliente(), getVehiculo(), getFechaInicio().format(FORMATO_FECHA), getHoras());
+            cadena = String.format("Revisión -> %s - %s (%s - ): %d horas", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), horas);
         } else {
-            cadena = String.format("Revisión -> %s - %s (%s - %s): %d horas, %.2f € total", getCliente(), getVehiculo(), getFechaInicio().format(FORMATO_FECHA), getFechaFin().format(FORMATO_FECHA), getHoras(), getPrecio());
+            cadena = String.format("Revisión -> %s - %s (%s - %s): %d horas, %.2f € total", cliente, vehiculo, fechaInicio.format(FORMATO_FECHA), fechaFin.format(FORMATO_FECHA), horas, getPrecio());
         }
         return cadena;
     }
 }
-
