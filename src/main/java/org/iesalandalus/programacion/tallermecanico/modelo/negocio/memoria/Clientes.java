@@ -4,16 +4,31 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IClientes;
 
 import javax.naming.OperationNotSupportedException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Clientes implements IClientes {
 
+    private static final String FICHERO_CLIENTES = String.format("%s%s%s", "ficheros", File.separator, "ficheroClientes.txt");
+    private static final String RAIZ = "C:\\";
+    private static final String NOMBRE = "Bob Esponja";
+    private static final String DNI ="73509278Z";
+    private static final String TELEFONO = "349320356";
+
     private final List<Cliente> coleccionClientes;
 
     public Clientes() {
         coleccionClientes = new ArrayList<>();
+    }
+
+    private Clientes getInstancia() {
+
+    }
+
+    public void comenzar() {
+
     }
 
     @Override

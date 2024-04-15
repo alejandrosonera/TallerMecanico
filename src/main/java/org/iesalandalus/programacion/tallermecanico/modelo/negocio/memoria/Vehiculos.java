@@ -4,11 +4,16 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.IVehiculos;
 
 import javax.naming.OperationNotSupportedException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Vehiculos implements IVehiculos {
+
+    private static final String FICHERO_VEHICULOS = String.format("%s%s%s", "ficheros", File.separator, "ficheroVehiculos.txt");
+    private static final String RAIZ = "C:\\";
+    private static final String VEHICULO =
     private final List<Vehiculo> coleccionVehiculos;
 
     public Vehiculos() {
