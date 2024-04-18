@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ITrabajos;
@@ -135,7 +135,25 @@ public class Trabajos implements ITrabajos {
     }
 
     public Map<TipoTrabajo, Integer> getEstadisticasMensuales(LocalDate mes){
+        Map<TipoTrabajo, Integer> numeroTrabajoMes = inicializarEstadisticas();
+        int veces;
+        for (Trabajo trabajo : coleccionTrabajos) {
+            if (trabajo instanceof Revision && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()) {
+                veces = numeroTrabajoMes.get(TipoTrabajo.REVISION);
+                veces++;
+            } else if (trabajo instanceof Mecanico && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()) {
+                veces = numeroTrabajoMes.get(TipoTrabajo.REVISION);
+                veces++;
+            }
+        }
+        return numeroTrabajoMes;
+    }
 
+    public Map<TipoTrabajo, Integer> inicializarEstadisticas() {
+        Map<TipoTrabajo, Integer> inicializarEstadisticas = new HashMap<>();
+        inicializarEstadisticas.put(TipoTrabajo.REVISION, 0);
+        inicializarEstadisticas.put(TipoTrabajo.MECANICO, 0);
+        return inicializarEstadisticas;
     }
 
 

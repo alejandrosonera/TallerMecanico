@@ -1,8 +1,5 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 
-import org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria.Trabajos;
-
-import java.time.LocalDate;
 import java.util.Objects;
 
 public enum TipoTrabajo {
