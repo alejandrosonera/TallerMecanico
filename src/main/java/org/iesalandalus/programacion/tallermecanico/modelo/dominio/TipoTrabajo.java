@@ -14,7 +14,10 @@ public enum TipoTrabajo {
     }
     public static TipoTrabajo get(Trabajo trabajo) {
         Objects.requireNonNull(trabajo, "El trabajo no puede ser nulo.");
-        return TipoTrabajo.get(trabajo);
-
+        if (trabajo instanceof Mecanico) {
+            return TipoTrabajo.MECANICO;
+        } else {
+            return TipoTrabajo.REVISION;
+        }
     }
 }
