@@ -73,7 +73,7 @@ public class Vehiculos implements IVehiculos {
                 documentoXml.getDocumentElement().appendChild(elementoVehiculo);
             }
         }
-        UtilidadesXml.escribirDocumentoXml((javax.swing.text.Document) documentoXml, FICHERO_VEHICULOS);
+        UtilidadesXml.escribirDocumentoXml((Document) documentoXml, FICHERO_VEHICULOS);
     }
 
     private Document crearDocumentoXml() {

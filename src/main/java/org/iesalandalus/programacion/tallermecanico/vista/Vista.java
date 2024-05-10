@@ -3,6 +3,7 @@ package org.iesalandalus.programacion.tallermecanico.vista;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -53,7 +54,13 @@ public interface Vista {
 
     void mostrarTrabajos(List<Trabajo> trabajoes);
 
-    void mostrarTrabajosCliente(List<Trabajo> trabajosCliente);
+    default void mostrarTrabajosCliente(List<Trabajo> trabajos) {
+        mostrarTrabajos(trabajos);
+    }
 
-    void mostrarTrabajosVehiculo(List<Trabajo> trabajosVehiculo);
+    default void mostrarTrabajosVehiculo(List<Trabajo> trabajos) {
+        mostrarTrabajos(trabajos);
+    }
+
+    void setVentanaPrincipal(Controlador ventanaPrincipal);
 }

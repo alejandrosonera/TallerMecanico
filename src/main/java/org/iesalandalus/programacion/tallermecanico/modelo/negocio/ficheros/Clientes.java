@@ -23,11 +23,6 @@ public class Clientes implements IClientes {
         coleccionClientes = new ArrayList<>();
     }
 
-    private Clientes getInstancia() {
-
-
-    }
-
     public void comenzar() {
 
     }

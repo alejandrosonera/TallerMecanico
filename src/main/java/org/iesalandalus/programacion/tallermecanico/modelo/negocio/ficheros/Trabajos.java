@@ -14,7 +14,7 @@ public class Trabajos implements ITrabajos {
     private static final String FICHERO_TRABAJOS = String.format("%s%s%s", "ficheros", File.separator, "ficheroTexto.txt");
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String RAIZ = "C:\\";
-    private static final String TRABAJO =
+    private static final String TRABAJO = "TRABAJO";
 
     private final List<Trabajo> coleccionTrabajos;
 
@@ -22,9 +22,7 @@ public class Trabajos implements ITrabajos {
         coleccionTrabajos = new ArrayList<>();
     }
 
-    protected Trabajos getInstancia() {
 
-    }
     @Override
     public List<Trabajo> get() {
         return new ArrayList<>(coleccionTrabajos);

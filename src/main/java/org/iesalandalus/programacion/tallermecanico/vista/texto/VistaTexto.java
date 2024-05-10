@@ -4,6 +4,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.vista.Vista;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.Evento;
 import org.iesalandalus.programacion.tallermecanico.vista.eventos.GestorEventos;
+import org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -186,6 +187,11 @@ public class VistaTexto implements Vista {
         } else {
             System.out.println("No hay trabajos que mostrar para dicho vehículo.");
         }
+    }
+
+    @Override
+    public void setVentanaPrincipal(Controlador ventanaPrincipal) {
+
     }
 
 }

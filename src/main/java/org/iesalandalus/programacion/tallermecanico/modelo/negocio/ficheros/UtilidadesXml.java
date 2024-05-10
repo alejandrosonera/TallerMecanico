@@ -1,8 +1,8 @@
 package org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros;
 
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import javax.swing.text.Document;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,13 +10,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class UtilidadesXml {
-    public UtilidadesXml() {
 
+    private UtilidadesXml() {
+        // Evito que se creen instancias.
     }
+
     public static void escribirDocumentoXml(Document documentoXml, String salida) {
         try (FileWriter ficheroSalida = new FileWriter(salida)) {
             TransformerFactory factoria = TransformerFactory.newInstance();
@@ -44,8 +47,8 @@ public class UtilidadesXml {
         try {
             DocumentBuilder constructor = crearConstructorDocumentoXml();
             if (constructor != null) {
-                documentoXml = (Document) constructor.parse(ficheroXml);
-                ((org.w3c.dom.Document) documentoXml).getDocumentElement().normalize();
+                documentoXml = constructor.parse(ficheroXml);
+                documentoXml.getDocumentElement().normalize();
             }
         } catch (SAXException e) {
             System.out.println("Documento XML mal formado.");
@@ -66,4 +69,5 @@ public class UtilidadesXml {
         }
         return constructor;
     }
+
 }
