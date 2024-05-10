@@ -1,16 +1,20 @@
-package org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria;
+package org.iesalandalus.programacion.tallermecanico.modelo.negocio.ficheros;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.*;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ITrabajos;
 
 import javax.naming.OperationNotSupportedException;
+import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Trabajos implements ITrabajos {
+
+    private static final String FICHERO_TRABAJOS = String.format("%s%s%s", "ficheros", File.separator, "ficheroTexto.txt");
+    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String RAIZ = "C:\\";
+    private static final String TRABAJO =
 
     private final List<Trabajo> coleccionTrabajos;
 
@@ -18,6 +22,9 @@ public class Trabajos implements ITrabajos {
         coleccionTrabajos = new ArrayList<>();
     }
 
+    protected Trabajos getInstancia() {
+
+    }
     @Override
     public List<Trabajo> get() {
         return new ArrayList<>(coleccionTrabajos);
@@ -126,4 +133,28 @@ public class Trabajos implements ITrabajos {
         }
         coleccionTrabajos.remove(trabajo);
     }
+
+    public Map<TipoTrabajo, Integer> getEstadisticasMensuales(LocalDate mes){
+        Map<TipoTrabajo, Integer> numeroTrabajoMes = inicializarEstadisticas();
+        int veces;
+        for (Trabajo trabajo : coleccionTrabajos) {
+            if (trabajo instanceof Revision && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()) {
+                veces = numeroTrabajoMes.get(TipoTrabajo.REVISION);
+                veces++;
+            } else if (trabajo instanceof Mecanico && trabajo.getFechaFin().getMonthValue() == mes.getMonthValue()) {
+                veces = numeroTrabajoMes.get(TipoTrabajo.REVISION);
+                veces++;
+            }
+        }
+        return numeroTrabajoMes;
+    }
+
+    public Map<TipoTrabajo, Integer> inicializarEstadisticas() {
+        Map<TipoTrabajo, Integer> inicializarEstadisticas = new HashMap<>();
+        inicializarEstadisticas.put(TipoTrabajo.REVISION, 0);
+        inicializarEstadisticas.put(TipoTrabajo.MECANICO, 0);
+        return inicializarEstadisticas;
+    }
+
+
 }
