@@ -17,11 +17,29 @@ public class Trabajos implements ITrabajos {
     private static final String TRABAJO = "TRABAJO";
 
     private final List<Trabajo> coleccionTrabajos;
+    private static Trabajos instancia;
+
+    public static Trabajos getInstancia() {
+        if (instancia == null) {
+            instancia = new Trabajos();
+        }
+        return instancia;
+    }
 
     public Trabajos() {
         coleccionTrabajos = new ArrayList<>();
     }
 
+
+    @Override
+    public void comenzar() {
+
+    }
+
+    @Override
+    public void terminar() {
+
+    }
 
     @Override
     public List<Trabajo> get() {

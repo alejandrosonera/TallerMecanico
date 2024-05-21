@@ -28,7 +28,7 @@ public class Vehiculos implements IVehiculos {
         coleccionVehiculos = new ArrayList<>();
     }
 
-    static Vehiculos getInstancia() {
+    public static Vehiculos getInstancia() {
         if (instancia == null) {
             instancia = new Vehiculos();
         }
@@ -123,5 +123,9 @@ public class Vehiculos implements IVehiculos {
             throw new OperationNotSupportedException("No existe ningún vehículo con esa matrícula.");
         }
         coleccionVehiculos.remove(vehiculo);
+    }
+
+    public org.bson.Document getDocumento(Vehiculo vehiculo) {
+        return null;
     }
 }

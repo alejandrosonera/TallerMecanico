@@ -142,4 +142,9 @@ public class VistaGrafica implements Vista {
     public void mostrarTrabajosVehiculo(List<Trabajo> trabajos) {
         mostrarTrabajos(trabajos);
     }
+
+    @Override
+    public void setVentanaPrincipal(org.iesalandalus.programacion.tallermecanico.vista.grafica.utilidades.Controlador ventanaPrincipal) {
+
+    }
 }

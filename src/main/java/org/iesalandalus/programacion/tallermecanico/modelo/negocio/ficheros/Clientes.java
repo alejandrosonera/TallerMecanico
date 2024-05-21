@@ -18,12 +18,25 @@ public class Clientes implements IClientes {
     private static final String TELEFONO = "349320356";
 
     private final List<Cliente> coleccionClientes;
+    private static Clientes instancia;
 
     public Clientes() {
         coleccionClientes = new ArrayList<>();
     }
 
+    public static IClientes getInstancia() {
+        if (instancia == null) {
+            instancia = new Clientes();
+        }
+        return instancia;
+    }
+
     public void comenzar() {
+
+    }
+
+    @Override
+    public void terminar() {
 
     }
 

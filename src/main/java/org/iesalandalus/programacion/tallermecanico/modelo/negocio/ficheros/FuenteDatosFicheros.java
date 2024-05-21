@@ -11,6 +11,16 @@ public class FuenteDatosFicheros {
     public IClientes crearClientes() {
         return new IClientes() {
             @Override
+            public void comenzar() {
+
+            }
+
+            @Override
+            public void terminar() {
+
+            }
+
+            @Override
             public List<Cliente> get() {
                 return null;
             }
